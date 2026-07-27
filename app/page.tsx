@@ -239,46 +239,117 @@ export default function HomePage() {
 
       <section
         id="schedule"
-        className="mx-auto grid w-full max-w-6xl scroll-mt-28 gap-12 px-5 py-14 sm:px-8 sm:py-20 md:grid-cols-2"
+        className="mx-auto w-full max-w-6xl scroll-mt-28 px-5 py-14 sm:px-8 sm:py-20"
       >
-        <div>
-          <SectionHeading title="กำหนดการ" />
-          <dl className="mt-8 space-y-6">
-            <div>
-              <dt className="text-sm font-medium text-muted-foreground">เวลา</dt>
-              <dd className="mt-1 text-lg font-medium text-foreground">
-                ประกาศวันและเวลาภายหลัง
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm font-medium text-muted-foreground">
-                สถานที่
-              </dt>
-              <dd className="mt-1 text-lg font-medium text-foreground">
-                ห้อง AI and Robotics
-              </dd>
-            </div>
-          </dl>
+        <SectionHeading
+          title="กำหนดการ"
+          description="กำหนดการแข่งขัน Rescue Line Robot Challenge ปีการศึกษา 2569"
+        />
+
+        <div className="mt-8 overflow-x-auto rounded-xl border border-border sm:mt-10">
+          <table className="w-full min-w-[32rem] border-collapse text-left text-sm sm:text-base">
+            <thead>
+              <tr className="border-b border-border bg-muted/50">
+                <th className="px-4 py-3 font-heading font-semibold text-foreground sm:px-5">
+                  วันที่
+                </th>
+                <th className="px-4 py-3 font-heading font-semibold text-foreground sm:px-5">
+                  กิจกรรม
+                </th>
+                <th className="px-4 py-3 font-heading font-semibold text-foreground sm:px-5">
+                  สถานที่ / รายละเอียด
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border">
+                <td className="px-4 py-4 align-top font-medium text-foreground whitespace-nowrap sm:px-5">
+                  3–7 สิงหาคม 2569
+                </td>
+                <td className="px-4 py-4 align-top text-foreground/90 sm:px-5">
+                  เปิดรับสมัครออนไลน์
+                </td>
+                <td className="px-4 py-4 align-top text-muted-foreground sm:px-5">
+                  ผ่านเว็บไซต์นี้
+                </td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="px-4 py-4 align-top font-medium text-foreground whitespace-nowrap sm:px-5">
+                  10–12 สิงหาคม 2569
+                </td>
+                <td className="px-4 py-4 align-top text-foreground/90 sm:px-5">
+                  Workshop + รอบคัดเลือก
+                </td>
+                <td className="px-4 py-4 align-top text-muted-foreground sm:px-5">
+                  คัดเหลือ 5 ทีมสุดท้าย
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-4 align-top font-medium text-foreground whitespace-nowrap sm:px-5">
+                  31 สิงหาคม 2569
+                </td>
+                <td className="px-4 py-4 align-top text-foreground/90 sm:px-5">
+                  รอบชิงชนะเลิศ
+                </td>
+                <td className="px-4 py-4 align-top text-muted-foreground sm:px-5">
+                  De Montfort Hall
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <div>
-          <SectionHeading title="ระดับการแข่งขัน" />
-          <dl className="mt-8 space-y-6">
-            <div>
-              <dt className="text-sm font-medium text-muted-foreground">
-                ระดับชั้น
-              </dt>
-              <dd className="mt-1 text-lg font-medium text-foreground">
-                มัธยมศึกษาปีที่ 1–3
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm font-medium text-muted-foreground">รูปแบบ</dt>
-              <dd className="mt-1 text-lg font-medium text-foreground">
-                แข่งขันเป็นทีม ทีมละ 3 คน
-              </dd>
-            </div>
-          </dl>
+        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+          หมายเหตุ : เปิดรับสมัคร 10 ทีม เมื่อครบจำนวนแล้วจะปิดรับสมัครทันที
+        </p>
+
+        <div className="mt-10 grid gap-10 sm:mt-12 md:grid-cols-2 md:gap-12">
+          <div>
+            <h3 className="font-heading text-lg font-semibold sm:text-xl">
+              ระดับการแข่งขัน
+            </h3>
+            <dl className="mt-5 space-y-5">
+              <div>
+                <dt className="text-sm font-medium text-muted-foreground">
+                  ระดับชั้น
+                </dt>
+                <dd className="mt-1 text-base font-medium text-foreground sm:text-lg">
+                  มัธยมศึกษาปีที่ 1–3
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm font-medium text-muted-foreground">
+                  รูปแบบ
+                </dt>
+                <dd className="mt-1 text-base font-medium text-foreground sm:text-lg">
+                  แข่งขันเป็นทีม ทีมละ 3 คน
+                </dd>
+              </div>
+            </dl>
+          </div>
+          <div>
+            <h3 className="font-heading text-lg font-semibold sm:text-xl">
+              สรุปรอบการแข่งขัน
+            </h3>
+            <dl className="mt-5 space-y-5">
+              <div>
+                <dt className="text-sm font-medium text-muted-foreground">
+                  รอบคัดเลือก
+                </dt>
+                <dd className="mt-1 text-base font-medium text-foreground sm:text-lg">
+                  คัดเลือกเหลือ 5 ทีม
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm font-medium text-muted-foreground">
+                  รอบชิงชนะเลิศ
+                </dt>
+                <dd className="mt-1 text-base font-medium text-foreground sm:text-lg">
+                  ณ De Montfort Hall
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </section>
 
