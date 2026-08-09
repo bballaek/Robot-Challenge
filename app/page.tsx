@@ -275,13 +275,46 @@ export default function HomePage() {
               </tr>
               <tr className="border-b border-border">
                 <td className="px-4 py-4 align-top font-medium text-foreground whitespace-nowrap sm:px-5">
-                  10–12 สิงหาคม 2569
+                  11 สิงหาคม 2569
                 </td>
                 <td className="px-4 py-4 align-top text-foreground/90 sm:px-5">
-                  Workshop + รอบคัดเลือก
+                  Workshop ชี้แจงกติกา และประกอบหุ่นยนต์
                 </td>
                 <td className="px-4 py-4 align-top text-muted-foreground sm:px-5">
-                  คัดเหลือ 5 ทีมสุดท้าย
+                  ห้อง AI and Robotics
+                </td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="px-4 py-4 align-top font-medium text-foreground whitespace-nowrap sm:px-5">
+                  13 สิงหาคม 2569
+                </td>
+                <td className="px-4 py-4 align-top text-foreground/90 sm:px-5">
+                  Workshop การเขียนโค้ดและ functions
+                </td>
+                <td className="px-4 py-4 align-top text-muted-foreground sm:px-5">
+                  ห้อง AI and Robotics
+                </td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="px-4 py-4 align-top font-medium text-foreground whitespace-nowrap sm:px-5">
+                  17 สิงหาคม 2569
+                </td>
+                <td className="px-4 py-4 align-top text-foreground/90 sm:px-5">
+                  คัดเลือกครั้งที่ 1
+                </td>
+                <td className="px-4 py-4 align-top text-muted-foreground sm:px-5">
+                  ห้อง AI and Robotics
+                </td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="px-4 py-4 align-top font-medium text-foreground whitespace-nowrap sm:px-5">
+                  18 สิงหาคม 2569
+                </td>
+                <td className="px-4 py-4 align-top text-foreground/90 sm:px-5">
+                  คัดเลือกครั้งที่ 2
+                </td>
+                <td className="px-4 py-4 align-top text-muted-foreground sm:px-5">
+                  ห้อง AI and Robotics
                 </td>
               </tr>
               <tr>
@@ -289,10 +322,10 @@ export default function HomePage() {
                   31 สิงหาคม 2569
                 </td>
                 <td className="px-4 py-4 align-top text-foreground/90 sm:px-5">
-                  รอบชิงชนะเลิศ
+                  รอบรอง และรอบชิงชนะเลิศ
                 </td>
                 <td className="px-4 py-4 align-top text-muted-foreground sm:px-5">
-                  De Montfort Hall
+                  หอประชุม De Montfort Hall
                 </td>
               </tr>
             </tbody>
@@ -334,18 +367,18 @@ export default function HomePage() {
             <dl className="mt-5 space-y-5">
               <div>
                 <dt className="text-sm font-medium text-muted-foreground">
-                  รอบคัดเลือก
+                  Workshop / คัดเลือก
                 </dt>
                 <dd className="mt-1 text-base font-medium text-foreground sm:text-lg">
-                  คัดเลือกเหลือ 5 ทีม
+                  11–18 ส.ค. ณ ห้อง AI and Robotics
                 </dd>
               </div>
               <div>
                 <dt className="text-sm font-medium text-muted-foreground">
-                  รอบชิงชนะเลิศ
+                  รอบรองและชิงชนะเลิศ
                 </dt>
                 <dd className="mt-1 text-base font-medium text-foreground sm:text-lg">
-                  ณ De Montfort Hall
+                  31 ส.ค. ณ หอประชุม De Montfort Hall
                 </dd>
               </div>
             </dl>
@@ -360,7 +393,7 @@ export default function HomePage() {
         <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
           <SectionHeading
             title="ภาพจำลองสนามแข่งขัน"
-            description="หุ่นยนต์เดินตามเส้นสีดำ ปฏิบัติภารกิจเกี่ยวกับกระป๋องตามจุดสีที่กำหนด แล้วมุ่งสู่เป้าหมายปลายทาง"
+            description="หุ่นยนต์เริ่มที่จุด START เดินตามเส้นสีดำผ่านทางแยกและจุดตรวจสอบ ไปยังพื้นที่เป้าหมายสีแดง เขียว หรือเหลือง"
             tone="muted"
           />
           <div className="mt-10">

@@ -4,7 +4,7 @@ export function FieldDiagram() {
   return (
     <div className="overflow-hidden rounded-lg border border-border bg-white">
       <Image
-        src="/src/image/g5.jpg"
+        src="/src/image/following-line.jpg"
         alt="ภาพจำลองสนามแข่งขัน Rescue Line Robot Challenge"
         width={1600}
         height={700}

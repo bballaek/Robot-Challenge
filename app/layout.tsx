@@ -6,6 +6,8 @@ import { ScrollToTop } from "@/components/scroll-to-top";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
   variable: "--font-sans",
   subsets: ["thai", "latin"],

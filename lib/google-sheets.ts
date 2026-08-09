@@ -115,28 +115,63 @@ async function ensureSettingsSheet() {
     return;
   }
 
-  // เติมคีย์ที่ยังไม่มี
+  await normalizeSettingsSheet();
+}
+
+/** รวมคีย์ซ้ำให้เหลือแถวเดียว (เก็บค่าแถวแรก) และเติมคีย์ที่ขาด */
+async function normalizeSettingsSheet() {
+  const sheets = await getSheetsClient();
   const current = await sheets.spreadsheets.values.get({
     spreadsheetId: spreadsheetId(),
     range: `${SETTINGS_SHEET}!A2:B`,
   });
   const rows = current.data.values ?? [];
-  const keys = new Set(rows.map((r) => r[0]));
-  const missing: string[][] = [];
-  if (!keys.has("registrationOpen")) {
-    missing.push(["registrationOpen", "TRUE"]);
+
+  const orderedKeys: string[] = [];
+  const values = new Map<string, string>();
+  let hasDuplicates = false;
+
+  for (const row of rows) {
+    const key = String(row[0] ?? "").trim();
+    if (!key) continue;
+    if (values.has(key)) {
+      hasDuplicates = true;
+      continue;
+    }
+    orderedKeys.push(key);
+    values.set(key, row[1] ?? "");
   }
-  if (!keys.has("teamsPublic")) {
-    missing.push(["teamsPublic", "TRUE"]);
+
+  const required: Array<[string, string]> = [
+    ["registrationOpen", "TRUE"],
+    ["teamsPublic", "TRUE"],
+  ];
+  let missing = false;
+  for (const [key, fallback] of required) {
+    if (!values.has(key)) {
+      orderedKeys.push(key);
+      values.set(key, fallback);
+      missing = true;
+    }
   }
-  if (missing.length > 0) {
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: spreadsheetId(),
-      range: `${SETTINGS_SHEET}!A:B`,
-      valueInputOption: "RAW",
-      requestBody: { values: missing },
-    });
-  }
+
+  if (!hasDuplicates && !missing) return;
+
+  const nextRows = orderedKeys.map((key) => [key, values.get(key) ?? ""]);
+
+  // ล้างช่วงเดิมแล้วเขียนใหม่ กันคีย์ซ้ำค้างในชีต
+  await sheets.spreadsheets.values.clear({
+    spreadsheetId: spreadsheetId(),
+    range: `${SETTINGS_SHEET}!A2:B`,
+  });
+  await sheets.spreadsheets.values.update({
+    spreadsheetId: spreadsheetId(),
+    range: `${SETTINGS_SHEET}!A1:B${nextRows.length + 1}`,
+    valueInputOption: "RAW",
+    requestBody: {
+      values: [["key", "value"], ...nextRows],
+    },
+  });
 }
 
 function parseBool(value: string | undefined, fallback: boolean) {
@@ -154,6 +189,17 @@ async function readSettingsRows() {
   return result.data.values ?? [];
 }
 
+function settingsRowsToMap(rows: string[][]) {
+  // ใช้ค่าแถวแรกของแต่ละคีย์ (ตรงกับตำแหน่งที่ setSettingFlag อัปเดต)
+  const map: Record<string, string> = {};
+  for (const row of rows) {
+    const key = String(row[0] ?? "").trim();
+    if (!key || key in map) continue;
+    map[key] = row[1] ?? "";
+  }
+  return map;
+}
+
 /** อ่านการตั้งค่าทั้งหมด */
 export async function getSiteSettings(): Promise<SiteSettings> {
   if (!isSheetsConfigured()) {
@@ -162,9 +208,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 
   try {
     const rows = await readSettingsRows();
-    const map = Object.fromEntries(
-      rows.filter((r) => r[0]).map((r) => [r[0], r[1] ?? ""])
-    );
+    const map = settingsRowsToMap(rows);
     return {
       registrationOpen: parseBool(
         map.registrationOpen,
@@ -196,10 +240,15 @@ async function setSettingFlag(
   await ensureSettingsSheet();
   const sheets = await getSheetsClient();
   const rows = await readSettingsRows();
-  const rowIndex = rows.findIndex((r) => r[0] === key);
   const value = open ? "TRUE" : "FALSE";
+  const keyTrim = key;
 
-  if (rowIndex === -1) {
+  // อัปเดตทุกแถวที่คีย์ตรงกัน กันค่าซ้ำคนละสถานะ
+  const indexes = rows
+    .map((r, i) => (String(r[0] ?? "").trim() === keyTrim ? i : -1))
+    .filter((i) => i >= 0);
+
+  if (indexes.length === 0) {
     await sheets.spreadsheets.values.append({
       spreadsheetId: spreadsheetId(),
       range: `${SETTINGS_SHEET}!A:B`,
@@ -209,12 +258,21 @@ async function setSettingFlag(
     return;
   }
 
-  await sheets.spreadsheets.values.update({
-    spreadsheetId: spreadsheetId(),
-    range: `${SETTINGS_SHEET}!B${rowIndex + 2}`,
-    valueInputOption: "RAW",
-    requestBody: { values: [[value]] },
-  });
+  await Promise.all(
+    indexes.map((rowIndex) =>
+      sheets.spreadsheets.values.update({
+        spreadsheetId: spreadsheetId(),
+        range: `${SETTINGS_SHEET}!B${rowIndex + 2}`,
+        valueInputOption: "RAW",
+        requestBody: { values: [[value]] },
+      })
+    )
+  );
+
+  // เก็บแถวเดียวต่อคีย์
+  if (indexes.length > 1) {
+    await normalizeSettingsSheet();
+  }
 }
 
 /** ตั้งค่าเปิด/ปิดรับสมัคร */
